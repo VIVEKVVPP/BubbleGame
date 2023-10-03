@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BubbleGame</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        }
+        html,body{
+            width: 100%;
+            height: 100%;
+        }
+        #background{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+            background-color: rgb(59, 169, 44);
+        }
+        #panel{
+            overflow: hidden;
+            width: 80%;
+            height: 80%;
+            background-color: #fff;
+            border-radius: 10px;
+        }
+        #background #panel #ptop{
+            padding: 0 30%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            color: #fff;
+            width: 100%;
+            height: 100px;
+            background-color: rgb(30, 111, 19);
+        }
+        .box{
+            padding: 10px 15px;
+            font-size: 18px;
+            font-weight: 500;
+            color: rgb(30, 111, 19);
+            background-color: #fff;
+            border-radius: 5px;
+
+        }
+        .elem{
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        #pbot{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            padding: 10px;
+            width: 100%;
+            height: calc(100% - 100px);
+        }
+        .bubble{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            
+            width: 43px;
+            height: 43px;
+            border-radius: 50%;
+            background-color: rgb(55, 149, 55);
+            color: #fff;
+        }
+        .bubble:hover{
+            cursor: pointer;
+            background-color: rgb(16, 67, 16);
+        }
+    </style>
+</head>
+<body>
+    <div id="background">
+        <div id="panel">
+            <div id="ptop">
+                <div class="elem">
+                    <h2>Hit</h2>
+                    <div id="hitval" class="box">5</div>
+                </div>
+                <div class="elem">
+                    <h2>Timer</h2>
+                    <div id="timerval" class="box">60</div>
+                </div>
+                <div class="elem">
+                    <h2>Score</h2>
+                    <div id="scoreval" class="box">0</div>
+            </div>
+            
+            </div>
+            <div id="pbot">
+                
+         
+            </div>
+        </div>
+    </div>
+    <script>
+        var timer=60;
+        var score=0;
+        var hitrn = 0;
+
+        function increaseScore(){
+            score += 10;
+            document.querySelector("#scoreval").textContent = score;
+        }
+
+        function getNewHit(){
+            hitrn= Math.floor(Math.random()*10);
+            document.querySelector("#hitval").textContent = hitrn;
+        }
+    
+       function makeBubble(){
+        var clutter = "";
+        for(var i =1; i<=133; i++){
+            var rn = Math.floor(Math.random()*10);
+            clutter += `<div class="bubble">${rn}</div>`
+        }
+        document.querySelector('#pbot').innerHTML = clutter;
+       }
+       
+       function runTimer(){
+        var timerint = setInterval(function(){
+            if(timer>0){
+                timer--;
+                document.querySelector('#timerval').textContent = timer;
+            }
+            else{
+                clearInterval(timerint);
+                document.querySelector("#pbot").innerHTML = "<h1>Game Over</h1>";
+            }
+        },1000);
+       }
+
+       document.querySelector("#pbot")
+       .addEventListener("click",function(details){
+        var clickednum = Number(details.target.textContent);
+        if(clickednum === hitrn){
+            increaseScore();
+            makeBubble();
+            getNewHit();
+        }
+       });
+       
+       runTimer();
+       makeBubble();
+       getNewHit();
+    </script>
+</body>
+</html>
